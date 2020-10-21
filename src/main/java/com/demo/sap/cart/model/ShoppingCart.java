@@ -18,6 +18,7 @@ public final class ShoppingCart {
     }
 
     public ShoppingCart addItemToCart(Product item, Integer quantity) {
+        validateEntry(item, quantity);
         Map<Product, Integer> newItems = new HashMap<>(itemAndQuantity); // O(n)
         newItems.put(item, quantity);
         return new ShoppingCart(newItems);
@@ -25,6 +26,7 @@ public final class ShoppingCart {
 
     public ShoppingCart addItemsToCart(Map<Product, Integer> itemToQuantity) {
         Map<Product, Integer> newItems = new HashMap<>(itemToQuantity);
+        // TODO: add validation
         newItems.putAll(itemToQuantity);
         return new ShoppingCart(newItems);
     }
@@ -69,4 +71,12 @@ public final class ShoppingCart {
         return new HashMap<>(itemAndQuantity);
     }
 
+    private void validateEntry(Product item, Integer quantity) {
+        if (item == null) {
+            throw new IllegalArgumentException("Adding item to cart must not be null");
+        }
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity must not be zero or negative number");
+        }
+    }
 }
